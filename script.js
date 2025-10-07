@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Generatore di Password Sicure",
             subtitle: "SECURE PASSWORD GENERATOR",
             languageLabel: "Lingua:",
-            instruction: "> MUOVI CURSORE / TOCCA SCHERMO<br>RACCOGLI ENTROPIA => GENERA",
+            instruction: "> MUOVI CURSORE / TOCCA SCHERMO => RACCOGLI ENTROPIA => GENERA",
             awaitingGeneration: "[ IN ATTESA DI GENERAZIONE... ]",
+            readyForGeneration: "[ PRONTO PER LA GENERAZIONE ]",
             entropyHeader: "[ ENTROPIA ]",
             showDetails: "MOSTRA DETTAGLI",
             hideDetails: "NASCONDI DETTAGLI",
@@ -48,7 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
             errorNoCharset: "ERRORE: NESSUN SET DI CARATTERI SELEZIONATO",
             errorGenerateFirst: "ERRORE: GENERA PRIMA UNA PASSWORD",
             copied: "[ COPIATO ]",
-            exportWarning: "ATTENZIONE: I file di testo non sono SICURI.\n\nEliminare subito dopo aver copiato nel gestore di password.\n\nPROCEDERE?"
+            exportWarning: "ATTENZIONE: I file di testo non sono SICURI.\n\nEliminare subito dopo aver copiato nel gestore di password.\n\nPROCEDERE?",
+            errorCrypto: "ERRORE: API CRITTOGRAFICA NON SUPPORTATA O BLOCCATA.",
+            errorClipboard: "ERRORE: IMPOSSIBILE COPIARE NEGLI APPUNTI."
         },
         en: {
             securityWarningHeader: "⚠ SECURITY WARNING",
@@ -56,8 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Secure Password Generator",
             subtitle: "SECURE PASSWORD GENERATOR",
             languageLabel: "Language:",
-            instruction: "> MOVE CURSOR / TOUCH SCREEN<br>COLLECT ENTROPY => GENERATE",
+            instruction: "> MOVE CURSOR / TOUCH SCREEN => COLLECT ENTROPY => GENERATE",
             awaitingGeneration: "[ AWAITING GENERATION... ]",
+            readyForGeneration: "[ READY FOR GENERATION ]",
             entropyHeader: "[ ENTROPY ]",
             showDetails: "SHOW DETAILS",
             hideDetails: "HIDE DETAILS",
@@ -83,11 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
             errorNoCharset: "ERROR: NO CHARSET SELECTED",
             errorGenerateFirst: "ERROR: GENERATE PASSWORD FIRST",
             copied: "[ COPIED ]",
-            exportWarning: "WARNING: Plain text files are NOT SECURE.\n\nDelete immediately after copying to password manager.\n\nPROCEED?"
+            exportWarning: "WARNING: Plain text files are NOT SECURE.\n\nDelete immediately after copying to password manager.\n\nPROCEED?",
+            errorCrypto: "ERROR: CRYPTO API NOT SUPPORTED OR BLOCKED.",
+            errorClipboard: "ERROR: FAILED TO COPY TO CLIPBOARD."
         }
     };
 
     const elements = {
+        instructionBox: document.querySelector('.generate-instruction'),
         passwordDisplay: document.getElementById('passwordDisplay'),
         lengthSlider: document.getElementById('lengthSlider'),
         lengthValue: document.getElementById('lengthValue'),
@@ -96,9 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBtn: document.getElementById('saveBtn'),
         entropyCount: document.getElementById('entropyCount'),
         entropyFill: document.getElementById('entropyFill'),
-        entropyStatus: document.getElementById('entropyStatus'),
         seedDisplay: document.getElementById('seedDisplay'),
-        toggleEntropy: document.getElementById('toggleEntropy'),
         langSelector: document.getElementById('lang'),
         notification: document.getElementById('notification')
     };
@@ -106,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let userEntropyData = [];
     let lastEventTime = 0;
     let currentSeed = null;
-    let seedVisible = false;
     const pageLoadTime = performance.now();
     let currentLang = 'it';
     let passwordGenerated = false;
@@ -141,8 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentSeed) {
             elements.seedDisplay.textContent = langData.seedNoData;
         }
-        
-        elements.toggleEntropy.textContent = seedVisible ? langData.hideDetails : langData.showDetails;
     }
 
     elements.langSelector.addEventListener('change', (e) => {
@@ -159,12 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     elements.lengthSlider.addEventListener('input', function() {
         elements.lengthValue.textContent = this.value;
-    });
-
-    elements.toggleEntropy.addEventListener('click', function() {
-        seedVisible = !seedVisible;
-        elements.seedDisplay.style.display = seedVisible ? 'block' : 'none';
-        this.textContent = seedVisible ? translations[currentLang].hideDetails : translations[currentLang].showDetails;
     });
 
     function collectEntropy(e) {
@@ -195,7 +191,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const percentage = (currentEntropy / MAX_ENTROPY_POINTS) * 100;
         elements.entropyCount.textContent = currentEntropy;
         elements.entropyFill.style.width = percentage + '%';
-        elements.entropyStatus.className = currentEntropy >= MAX_ENTROPY_POINTS ? 'status-indicator status-ready' : 'status-indicator status-collecting';
+
+        if (currentEntropy >= MAX_ENTROPY_POINTS && !passwordGenerated) {
+            manageGlowEffect('entropy-ready', elements, translations[currentLang]);
+        }
     }
 
     async function generateUserSeed() {
@@ -230,13 +229,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const cryptoArray = new Uint32Array(length);
-            crypto.getRandomValues(cryptoArray);
+            try {
+                crypto.getRandomValues(cryptoArray);
+            } catch (error) {
+                console.error('Crypto API error:', error);
+                showNotification('errorCrypto');
+                return null;
+            }
+            
             const combinedSeed = await sha512(userSeed + Array.from(cryptoArray).join(''));
             currentSeed = combinedSeed;
 
-            if (seedVisible) {
-                elements.seedDisplay.textContent = `SEED (${combinedSeed.length} chars): ${combinedSeed}`;
-            }
+            elements.seedDisplay.textContent = `SEED (${combinedSeed.length} chars): ${combinedSeed}`;
 
             let password = '';
             for (let i = 0; i < length; i++) {
@@ -271,8 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (password) {
                 passwordGenerated = true;
                 elements.passwordDisplay.textContent = password;
-                elements.passwordDisplay.classList.add('generated');
-                setTimeout(() => elements.passwordDisplay.classList.remove('generated'), 500);
+                flashElement(elements.passwordDisplay);
+                manageGlowEffect('generated', elements, translations[currentLang]);
             }
         } catch (error) {
             console.error('Error in generate button:', error);
@@ -286,13 +290,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 showNotification('errorGenerateFirst');
                 return;
             }
+            if (!navigator.clipboard) {
+                showNotification('errorClipboard');
+                return;
+            }
             navigator.clipboard.writeText(elements.passwordDisplay.textContent).then(() => {
                 showNotification('copied');
+                manageGlowEffect('copied_or_exported', elements, translations[currentLang]);
             }).catch(error => {
                 console.error('Error copying to clipboard:', error);
+                showNotification('errorClipboard');
             });
         } catch (error) {
             console.error('Error in copy button:', error);
+            showNotification('errorClipboard');
         }
     });
 
@@ -307,9 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            manageGlowEffect('copied_or_exported', elements, translations[currentLang]);
             const password = elements.passwordDisplay.textContent;
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            const seedInfo = currentSeed && seedVisible ? `\n\nSEED:\n${currentSeed}` : '';
+            const seedInfo = currentSeed ? `\n\nSEED:\n${currentSeed}` : '';
             const content = `PASSWORD: ${password}\nTIME: ${new Date().toLocaleString()}${seedInfo}`;
             const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
@@ -329,4 +341,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLanguage(currentLang);
     updateEntropyDisplay();
+    manageGlowEffect('initial', elements, translations[currentLang]);
 });

@@ -15,7 +15,7 @@
 
 body {
     background: #000000;
-    color: #00ff00;
+    color: #fcd106;
     min-height: 100vh;
     padding: 10px;
     display: flex;
@@ -62,9 +62,9 @@ body::after {
 }
 
 .container {
-    background: #000000;
-    border: 3px solid #00ff00;
-    box-shadow: 0 0 10px #00ff00, inset 0 0 10px rgba(0,255,0,0.05);
+    background: rgba(252, 209, 6, 0.1);
+    border: 3px solid #fcd106;
+    box-shadow: 0 0 10px #fcd106, inset 0 0 10px rgba(252, 209, 6, 0.05);
     padding: 20px;
     width: 100%;
     max-width: 700px;
@@ -95,8 +95,8 @@ body::after {
 
 .lang-selector select {
     background: #000;
-    color: #00ff00;
-    border: 2px solid #00ff00;
+    color: #fcd106;
+    border: 2px solid #fcd106;
     padding: 5px;
     font-size: clamp(1rem, 2.5vw, 1.3rem);
     cursor: pointer;
@@ -104,15 +104,15 @@ body::after {
 
 .lang-selector select:focus {
     outline: none;
-    box-shadow: 0 0 5px #00ff00;
+    box-shadow: 0 0 5px #fcd106;
 }
 
 h1 {
     text-align: center;
-    font-size: clamp(1.5rem, 14vw, 5rem);
+    font-size: clamp(3rem, 14vw, 6rem);
     font-weight: 400;
-    color: #00ff00;
-    text-shadow: 0 0 5px #00ff00;
+    color: #fcd106;
+    text-shadow: 0 0 5px #fcd106;
     letter-spacing: 3px;
     line-height: 1;
     margin-bottom: 20px;
@@ -120,23 +120,23 @@ h1 {
 
 .subtitle {
     font-size: clamp(1rem, 3vw, 1.5rem);
-    color: #00ff00;
-    text-shadow: 0 0 3px #00ff00;
+    color: #fcd106;
+    text-shadow: 0 0 3px #fcd106;
     margin-top: 5px;
     letter-spacing: 2px;
 }
 
 .password-display {
     background: #000000;
-    color: #00ff00;
+    color: #fcd106;
     padding: 15px;
     margin-bottom: 20px;
     font-size: clamp(1.3rem, 4vw, 2rem);
     min-height: 60px;
     word-break: break-all;
     text-align: center;
-    border: 3px solid #00ff00;
-    text-shadow: 0 0 3px #00ff00;
+    border: 3px solid #fcd106;
+    text-shadow: 0 0 3px #fcd106;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
@@ -147,12 +147,12 @@ h1 {
 
 @keyframes flash {
     0%, 100% { background: #000000; }
-    50% { background: #003300; }
+    50% { background: #3A3000; }
 }
 
 .entropy-section {
     background: #000000;
-    border: 3px solid #00ff00;
+    border: 3px solid #fcd106;
     padding: 15px;
     margin-bottom: 20px;
 }
@@ -165,73 +165,54 @@ h1 {
 }
 
 .entropy-header h3 {
-    color: #00ff00;
+    color: #fcd106;
     font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 400;
     display: flex;
     align-items: center;
     gap: 8px;
-    text-shadow: 0 0 3px #00ff00;
+    text-shadow: 0 0 3px #fcd106;
     flex-wrap: wrap;
-}
-
-.entropy-toggle {
-    background: #000000;
-    color: #00ff00;
-    border: 3px solid #00ff00;
-    padding: 12px 16px;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
-    width: 100%;
-    touch-action: manipulation;
-    text-shadow: 0 0 3px #00ff00;
-}
-
-.entropy-toggle:hover, .entropy-toggle:active {
-    background: #00ff00;
-    color: #000000;
-    text-shadow: none;
 }
 
 .mouse-entropy { margin-bottom: 15px; }
 
 .mouse-entropy label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-weight: 400;
-    color: #00ff00;
+    color: #fcd106;
     font-size: clamp(1.3rem, 3.5vw, 1.8rem);
-    text-shadow: 0 0 3px #00ff00;
+    text-shadow: 0 0 3px #fcd106;
 }
 
 .entropy-bar {
     width: 100%;
-    height: 28px;
+    height: 40px;
     background: #000000;
     overflow: hidden;
-    border: 3px solid #00ff00;
+    border: 3px solid #fcd106;
+	margin-bottom: 28px;
 }
 
 .entropy-fill {
     height: 100%;
-    background: #00ff00;
+    background: #fcd106;
     width: 0%;
     transition: width 0.3s ease;
 }
 
 .seed-display {
     background: #000000;
-    color: #00ff00;
+    color: #fcd106;
     padding: 12px;
     font-size: clamp(1rem, 2.5vw, 1.3rem);
     word-break: break-all;
     max-height: 120px;
     overflow-y: auto;
-    border: 3px solid #00ff00;
-    text-shadow: 0 0 3px #00ff00;
+    border: 3px solid #fcd106;
+    text-shadow: 0 0 3px #fcd106;
+	margin-bottom: 8px;
 }
 
 .controls { margin-bottom: 20px; }
@@ -242,8 +223,8 @@ label {
     margin-bottom: 10px;
     font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 400;
-    color: #00ff00;
-    text-shadow: 0 0 3px #00ff00;
+    color: #fcd106;
+    text-shadow: 0 0 3px #fcd106;
 }
 
 input[type="range"] {
@@ -252,14 +233,14 @@ input[type="range"] {
     background: #000000;
     outline: none;
     -webkit-appearance: none;
-    border: 3px solid #00ff00;
+    border: 3px solid #fcd106;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 40px;
     height: 40px;
-    background: #00ff00;
+    background: #fcd106;
     cursor: pointer;
     border: none;
     transition: all 0.2s ease;
@@ -269,7 +250,7 @@ input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.1); }
 input[type="range"]::-moz-range-thumb {
     width: 40px;
     height: 40px;
-    background: #00ff00;
+    background: #fcd106;
     cursor: pointer;
     border: none;
 }
@@ -280,31 +261,34 @@ input[type="range"]::-moz-range-thumb {
     font-weight: 400;
     margin-top: 10px;
     background: #000000;
-    color: #00ff00;
+    color: #fcd106;
     padding: 16px;
-    border: 3px solid #00ff00;
-    text-shadow: 0 0 3px #00ff00;
+    border: 3px solid #fcd106;
+    text-shadow: 0 0 3px #fcd106;
 }
 
 .checkboxes {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .checkbox-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     background: #000000;
-    padding: 16px;
-    border: 3px solid #00ff00;
+    padding: 8px;
+    border: 3px solid #fcd106;
     transition: all 0.2s ease;
     cursor: pointer;
-    min-height: 60px;
+    min-height: 30px;
+    flex-grow: 1;
+    text-align: center;
 }
 
-.checkbox-container.active { background: #00ff00; }
+.checkbox-container.active { background: #fcd106; }
 .checkbox-container.active label { color: #000000; text-shadow: none; }
 .checkbox-container:active { transform: scale(0.98); }
 .checkbox-container input { display: none; }
@@ -312,36 +296,36 @@ input[type="range"]::-moz-range-thumb {
 .checkbox-container label {
     margin-bottom: 0;
     cursor: pointer;
-    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
     font-weight: 400;
-    color: #00ff00;
-    text-shadow: 0 0 3px #00ff00;
+    color: #fcd106;
+    text-shadow: 0 0 3px #fcd106;
 }
 
 .buttons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 15px;
     margin-top: 20px;
 }
 
 button {
-    padding: 18px 16px;
-    border: 3px solid #00ff00;
+    padding: 25px 20px;
+    border: 3px solid #fcd106;
     background: #000000;
-    color: #00ff00;
-    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    color: #fcd106;
+    font-size: clamp(1.8rem, 5vw, 2.2rem);
     font-weight: 400;
     cursor: pointer;
     transition: all 0.2s ease;
     text-transform: uppercase;
-    min-height: 60px;
+    min-height: 80px;
     touch-action: manipulation;
-    text-shadow: 0 0 3px #00ff00;
+    text-shadow: 0 0 3px #fcd106;
 }
 
 button:active {
-    background: #00ff00;
+    background: #fcd106;
     color: #000000;
     text-shadow: none;
     transform: scale(0.98);
@@ -352,11 +336,11 @@ button:active {
     margin-bottom: 20px;
     padding: 16px;
     background: #000000;
-    color: #00ff00;
-    border: 3px solid #00ff00;
+    color: #fcd106;
+    border: 3px solid #fcd106;
     font-weight: 400;
     font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-    text-shadow: 0 0 3px #00ff00;
+    text-shadow: 0 0 3px #fcd106;
     line-height: 1.6;
 }
 
@@ -364,58 +348,30 @@ button:active {
     margin-top: 20px;
     padding: 20px;
     background: #000000;
-    border: 3px solid #00ff00;
-    border-left: 10px solid #00ff00;
+    border: 3px solid #fcd106;
+    border-left: 10px solid #fcd106;
     line-height: 1.8;
 }
 
 .instructions h3 {
     margin-bottom: 16px;
-    color: #00ff00;
+    color: #fcd106;
     font-size: clamp(1.5rem, 4.5vw, 2rem);
     font-weight: 400;
-    text-shadow: 0 0 3px #00ff00;
+    text-shadow: 0 0 3px #fcd106;
 }
 
 .instructions ul { padding-left: 20px; }
 .instructions li {
     margin-bottom: 12px;
-    color: #00ff00;
+    color: #fcd106;
     font-weight: 400;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 .instructions strong {
-    color: #00ff00;
+    color: #fcd106;
     font-weight: 400;
-    text-shadow: 0 0 3px #00ff00;
-}
-
-.status-indicator {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #00ff00;
-    flex-shrink: 0;
-    background-color: transparent;
-}
-
-.status-indicator::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-}
-
-.status-ready::after { background-color: #00ff00; }
-.status-collecting::after {
-    background-color: #ff0000;
-    animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    text-shadow: 0 0 3px #fcd106;
 }
 
 .notification {
@@ -423,11 +379,11 @@ button:active {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #00ff00;
+    background-color: #fcd106;
     color: #000;
     padding: 15px 25px;
     border: 3px solid #000;
-    box-shadow: 0 0 10px #00ff00;
+    box-shadow: 0 0 10px #fcd106;
     z-index: 10000;
     font-size: 1.5rem;
     text-align: center;
@@ -463,6 +419,19 @@ button:active {
     margin-bottom: 8px;
 }
 
+.breathing-glow {
+    animation: breathing-glow 2s infinite ease-in-out;
+}
+
+@keyframes breathing-glow {
+    0%, 100% {
+        box-shadow: 0 0 10px #fcd106, inset 0 0 10px rgba(252, 209, 6, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 20px #fcd106, inset 0 0 10px rgba(252, 209, 6, 1.5);
+    }
+}
+
 /* Desktop Optimization for 1280px */
 @media (min-width: 1280px) {
     .container {
@@ -483,7 +452,6 @@ button:active {
         justify-content: space-between;
         align-items: center;
     }
-    .entropy-toggle { width: auto; }
     .checkboxes {
         grid-template-columns: repeat(4, 1fr);
         gap: 16px;
@@ -498,11 +466,11 @@ button:active {
         width: 200px;
     }
     button:hover {
-        background: #00ff00;
+        background: #fcd106;
         color: #000000;
         text-shadow: none;
     }
-    .checkbox-container:hover { background: #00ff00; }
+    .checkbox-container:hover { background: #fcd106; }
     .checkbox-container:hover label { color: #000000; text-shadow: none; }
     .generate-instruction  { display: block; }
 }
@@ -525,6 +493,3 @@ button:active {
     h1 { letter-spacing: 1px; }
     .password-display, .entropy-section, .controls, .instructions { padding: 12px; }
 }
-
-
-

@@ -26,7 +26,7 @@
 </div>
         
         <div class="generate-instruction" data-lang="instruction">
-            > MUOVI CURSORE / TOCCA SCHERMO<br>RACCOGLI ENTROPIA => GENERA
+            > MUOVI CURSORE / TOCCA SCHERMO => RACCOGLI ENTROPIA => GENERA
         </div>
         
         <div id="notification" class="notification"></div>
@@ -37,8 +37,7 @@
         
         <div class="entropy-section">
             <div class="entropy-header">
-                <h3 data-lang="entropyHeader">[ ENTROPIA ] <span class="status-indicator status-collecting" id="entropyStatus"></span></h3>
-                <button class="entropy-toggle" id="toggleEntropy">MOSTRA DETTAGLI</button>
+                <h3 data-lang="entropyHeader">[ ENTROPIA ]</h3>
             </div>
             
             <div class="mouse-entropy">
@@ -48,7 +47,7 @@
                 </div>
             </div>
             
-            <div class="seed-display" id="seedDisplay" style="display: none;">
+            <div class="seed-display" id="seedDisplay">
                 SEED: NESSUN DATO GENERATO
             </div>
         </div>
@@ -99,6 +98,7 @@
         </div>
     </div>
 
+    <script src="animations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
