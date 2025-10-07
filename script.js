@@ -342,4 +342,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang);
     updateEntropyDisplay();
     manageGlowEffect('initial', elements, translations[currentLang]);
+
+    const featuresHeader = document.getElementById('featuresHeader');
+    const instructionsContainer = document.querySelector('.instructions.collapsible');
+
+    featuresHeader.addEventListener('click', () => {
+        instructionsContainer.classList.toggle('collapsed');
+    });
 });

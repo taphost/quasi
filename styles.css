@@ -70,6 +70,7 @@ body::after {
     max-width: 700px;
     position: relative;
     z-index: 1;
+    margin: 0 auto;
 }
 
 .header-controls {
@@ -81,7 +82,7 @@ body::after {
 
 .lang-selector {
     margin-top: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -124,6 +125,7 @@ h1 {
     text-shadow: 0 0 3px #fcd106;
     margin-top: 5px;
     letter-spacing: 2px;
+	margin-bottom: 5px;
 }
 
 .password-display {
@@ -131,8 +133,8 @@ h1 {
     color: #fcd106;
     padding: 15px;
     margin-bottom: 20px;
-    font-size: clamp(1.3rem, 4vw, 2rem);
-    min-height: 60px;
+    font-size: clamp(1.5rem, 3vw, 3rem);
+    min-height: 120px;
     word-break: break-all;
     text-align: center;
     border: 3px solid #fcd106;
@@ -173,6 +175,7 @@ h1 {
     gap: 8px;
     text-shadow: 0 0 3px #fcd106;
     flex-wrap: wrap;
+	
 }
 
 .mouse-entropy { margin-bottom: 15px; }
@@ -215,12 +218,12 @@ h1 {
 	margin-bottom: 8px;
 }
 
-.controls { margin-bottom: 20px; }
+.controls { margin-bottom: 40px; }
 .slider-container { margin: 20px 0; }
 
 label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 400;
     color: #fcd106;
@@ -286,6 +289,7 @@ input[type="range"]::-moz-range-thumb {
     min-height: 30px;
     flex-grow: 1;
     text-align: center;
+	margin-bottom: 20px;
 }
 
 .checkbox-container.active { background: #fcd106; }
@@ -303,8 +307,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .buttons {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 15px;
     margin-top: 20px;
 }
@@ -322,6 +327,8 @@ button {
     min-height: 80px;
     touch-action: manipulation;
     text-shadow: 0 0 3px #fcd106;
+    flex-grow: 1;
+    flex-basis: 200px;
 }
 
 button:active {
@@ -334,12 +341,12 @@ button:active {
 .generate-instruction {
     text-align: center;
     margin-bottom: 20px;
-    padding: 16px;
+    padding: 12px;
     background: #000000;
     color: #fcd106;
     border: 3px solid #fcd106;
     font-weight: 400;
-    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+    font-size: clamp(1.0rem, 3vw, 1.5rem);
     text-shadow: 0 0 3px #fcd106;
     line-height: 1.6;
 }
@@ -359,6 +366,11 @@ button:active {
     font-size: clamp(1.5rem, 4.5vw, 2rem);
     font-weight: 400;
     text-shadow: 0 0 3px #fcd106;
+    cursor: pointer;
+}
+
+.instructions.collapsible.collapsed #featuresList {
+    display: none;
 }
 
 .instructions ul { padding-left: 20px; }
@@ -401,20 +413,29 @@ button:active {
     background: #000000;
     border: 3px solid #ff0000;
     padding: 20px;
-    margin-bottom: 20px;
     color: #ff0000;
     text-shadow: 0 0 3px #ff0000;
+    position: fixed;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%, -50%);
+    z-index: 10001;
+    width: 80%;
+    max-width: 1000px;
+    opacity: 0;
+    animation: slideDownFadeOut 8s 1s ease-in-out forwards;
+    pointer-events: none;
 }
 
 .security-warning h3 {
-    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
     margin-bottom: 12px;
     text-shadow: 0 0 5px #ff0000;
     text-align: center;
 }
 
 .security-warning p {
-    font-size: clamp(0.8rem, 3vw, 1.2rem);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
     line-height: 1.6;
     margin-bottom: 8px;
 }
@@ -432,10 +453,29 @@ button:active {
     }
 }
 
-/* Desktop Optimization for 1280px */
-@media (min-width: 1280px) {
+@keyframes slideDownFadeOut {
+    0% {
+        transform: translate(-50%, -300%);
+        opacity: 0;
+    }
+    12.5% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    87.5% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+}
+
+/* Desktop Optimization */
+@media (min-width: 1024px) {
     .container {
-        max-width: 1280px;
+        max-width: 1200px;
         padding: 40px;
     }
     .header-controls {
@@ -459,11 +499,13 @@ button:active {
     .buttons {
         display: flex;
         justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
+        gap: 20px;
+        margin-top: 30px;
     }
     .buttons button {
-        width: 200px;
+        flex-basis: 280px;
+        font-size: 2.5rem;
+        padding: 20px;
     }
     button:hover {
         background: #fcd106;
