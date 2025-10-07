@@ -240,11 +240,11 @@ h1 {
 
     margin-bottom: 20px;
 
-    font-size: clamp(1.5rem, 3vw, 3rem);
+    font-size: clamp(1.4rem, 3vw, 3rem);
 
     min-height: 120px;
 
-    word-break: break-all;
+    white-space: nowrap; 
 
     text-align: center;
 
