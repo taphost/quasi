@@ -109,7 +109,7 @@ body::after {
 
 h1 {
     text-align: center;
-    font-size: clamp(3rem, 14vw, 8rem);
+    font-size: clamp(3rem, 14vw, 6rem);
     font-weight: 400;
     color: #00ff00;
     text-shadow: 0 0 5px #00ff00;
@@ -525,4 +525,5 @@ button:active {
     h1 { letter-spacing: 1px; }
     .password-display, .entropy-section, .controls, .instructions { padding: 12px; }
 }
+
 
