@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quasi - Scure Password Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+<div class="security-warning">
+    <h3 data-lang="securityWarningHeader"></h3>
+    <p data-lang="securityWarningText"></p>
+</div>
+
+<div class="header-controls">
+    <h1>[ QUASI ]</h1>
+    <div class="subtitle" data-lang="subtitle">SECURE PASSWORD GENERATOR</div>
+</div>
+<div class="lang-selector">
+    <label for="lang" data-lang="languageLabel">Lingua:</label>
+    <select id="lang">
+        <option value="it">Italiano</option>
+        <option value="en">English</option>
+    </select>
+</div>
+        
+        <div class="generate-instruction" data-lang="instruction">
+            > MUOVI CURSORE / TOCCA SCHERMO<br>RACCOGLI ENTROPIA => GENERA
+        </div>
+        
+        <div id="notification" class="notification"></div>
+
+        <div class="password-display" id="passwordDisplay">
+            [ IN ATTESA DI GENERAZIONE... ]
+        </div>
+        
+        <div class="entropy-section">
+            <div class="entropy-header">
+                <h3 data-lang="entropyHeader">[ ENTROPIA ] <span class="status-indicator status-collecting" id="entropyStatus"></span></h3>
+                <button class="entropy-toggle" id="toggleEntropy">MOSTRA DETTAGLI</button>
+            </div>
+            
+            <div class="mouse-entropy">
+                <label><span data-lang="collected">RACCOLTI</span>: <span id="entropyCount">0</span>/1000</label>
+                <div class="entropy-bar">
+                    <div class="entropy-fill" id="entropyFill"></div>
+                </div>
+            </div>
+            
+            <div class="seed-display" id="seedDisplay" style="display: none;">
+                SEED: NESSUN DATO GENERATO
+            </div>
+        </div>
+        
+        <div class="controls">
+            <label for="lengthSlider"><span data-lang="length">LUNGHEZZA</span>: <span id="lengthValue">16</span> <span data-lang="chars">CARATTERI</span></label>
+            <input type="range" id="lengthSlider" min="8" max="128" value="16">
+        </div>
+        
+        <div class="checkboxes">
+            <div class="checkbox-container active" data-option="uppercase">
+                <input type="checkbox" id="uppercase" checked>
+                <label for="uppercase" data-lang="uppercase">MAIUSCOLE (A-Z)</label>
+            </div>
+            
+            <div class="checkbox-container active" data-option="lowercase">
+                <input type="checkbox" id="lowercase" checked>
+                <label for="lowercase" data-lang="lowercase">MINUSCOLE (a-z)</label>
+            </div>
+            
+            <div class="checkbox-container active" data-option="numbers">
+                <input type="checkbox" id="numbers" checked>
+                <label for="numbers" data-lang="numbers">NUMERI (0-9)</label>
+            </div>
+            
+            <div class="checkbox-container active" data-option="specialChars">
+                <input type="checkbox" id="specialChars" checked>
+                <label for="specialChars" data-lang="special">SPECIALI (!@#$%...)</label>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="generateBtn" data-lang="generate">GENERA</button>
+            <button id="copyBtn" data-lang="copy">COPIA</button>
+            <button id="saveBtn" data-lang="export">ESPORTA</button>
+        </div>
+        
+        <div class="instructions">
+            <h3 data-lang="featuresHeader">[ FUNZIONALITÀ DI SISTEMA ]</h3>
+            <ul>
+                <li data-lang="feature1"><strong>ENTROPIA FISICA:</strong> Movimenti mouse/touch generano casualità crittografica.</li>
+                <li data-lang="feature2"><strong>ENTROPIA TEMPORALE:</strong> Il delta temporale tra eventi aggiunge entropia.</li>
+                <li data-lang="feature3"><strong>MULTI HASH:</strong> 10000 iterazioni SHA-512.</li>
+                <li data-lang="feature4"><strong>CRYPTO API:</strong> API del browser + entropia fisica.</li>
+                <li data-lang="feature5"><strong>VISTA SEED:</strong> Visualizzazione opzionale del seed.</li>
+                <li data-lang="feature6"><strong>STATO:</strong> Indicatore di entropia in tempo reale.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
