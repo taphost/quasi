@@ -244,7 +244,7 @@ h1 {
 
     min-height: 120px;
 
-    white-space: nowrap; 
+    word-break: break-all; 
 
     text-align: center;
 
