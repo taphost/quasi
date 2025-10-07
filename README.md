@@ -28,7 +28,7 @@ I browser non sono ambienti a prova di manomissione. Estensioni malevole o attac
   - Maiuscole (A-Z)
   - Minuscole (a-z)
   - Numeri (0-9)
-  - Caratteri speciali (!@#$%^&*...)
+  - Caratteri speciali (!@#$%^&*()_+-=[]{}|;:,.<>?~`)
 
 ### UI/UX
 - **Design CRT retro**: Effetto schermo vintage con flickering e scanlines
