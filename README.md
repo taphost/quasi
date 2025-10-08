@@ -40,7 +40,7 @@ I browser non sono ambienti a prova di manomissione. Estensioni malevole o attac
 
 ```bash
 # Clona il repository
-git clone https://github.com/tuousername/quasi.git
+git clone https://github.com/taphost/quasi.git
 cd quasi
 
 # Assicurati di avere la struttura corretta
