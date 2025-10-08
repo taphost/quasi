@@ -180,7 +180,7 @@ const translations = {
 
 ## 📄 Licenza
 
-MIT License - Vedi file LICENSE per dettagli.
+MIT License - Sentiti libero di usare e modificare per i tuoi progetti.
 
 ## 🤝 Contributi
 
