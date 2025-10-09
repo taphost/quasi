@@ -1,10 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const MAX_ENTROPY_POINTS = 1000;
-    const HASH_ROUNDS = 10000;
+    const config = {
+        MAX_ENTROPY_POINTS: 1000,
+        HASH_ROUNDS: 10000,
+        MIN_TIME_DELTA: 10,
+        NOTIFICATION_DURATION: 3000,
+        TYPEWRITER_SPEED: 50
+    };
+
+    const state = {
+        userEntropyData: [],
+        lastEventTime: 0,
+        currentSeed: null,
+        pageLoadTime: performance.now(),
+        currentLang: 'it',
+        passwordGenerated: false,
+        isReadyForGeneration: false
+    };
 
     async function sha512(str) {
         const buf = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(str));
-        return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
     const charsets = {
@@ -20,13 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
             securityWarningText: "I browser non sono ambienti a prova di manomissione. Estensioni malevoli o attacchi XSS potrebbero compromettere la sicurezza. Usa questo strumento con cautela, preferibilmente in un browser con un profilo pulito.",
             title: "Generatore di Password Sicure",
             subtitle: "SECURE PASSWORD GENERATOR",
-            languageLabel: "Lingua:",
-            instruction: "> MUOVI CURSORE / TOCCA SCHERMO => RACCOGLI ENTROPIA => GENERA",
-            awaitingGeneration: "[ IN ATTESA DI GENERAZIONE ]",
-            readyForGeneration: "[ PRONTO PER LA GENERAZIONE ]",
+            instruction: "> MOUVI IL CURSORE / TOCCA LO SCHERMO => RACCOGLI ENTROPIA => GENERA",
+            awaitingGeneration: "> IN ATTESA DI GENERAZIONE...",
+            readyForGeneration: "> PRONTO PER LA GENERAZIONE...",
             entropyHeader: "[ ENTROPIA ]",
-            showDetails: "MOSTRA DETTAGLI",
-            hideDetails: "NASCONDI DETTAGLI",
             collected: "RACCOLTI",
             seedNoData: "SEED: NESSUN DATO GENERATO",
             length: "LUNGHEZZA",
@@ -43,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             feature2: "<strong>ENTROPIA TEMPORALE:</strong> Il delta temporale tra eventi aggiunge entropia.",
             feature3: "<strong>MULTI HASH:</strong> 10000 iterazioni SHA-512.",
             feature4: "<strong>CRYPTO API:</strong> API del browser + entropia fisica.",
-            feature5: "<strong>VISTA SEED:</strong> Visualizzazione opzionale del seed.",
+            feature5: "<strong>VISTA SEED:</strong> Mostra il seed attualmente in uso.",
             feature6: "<strong>STATO:</strong> Indicatore di entropia in tempo reale.",
             errorInsufficientEntropy: "ERRORE: ENTROPIA INSUFFICIENTE\nRaccogli 1000/1000 punti.",
             errorNoCharset: "ERRORE: NESSUN SET DI CARATTERI SELEZIONATO",
@@ -58,13 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
             securityWarningText: "Browsers are not tamper-proof environments. Malicious extensions or XSS attacks could compromise security. Use this tool with caution, preferably in a browser with a clean profile.",
             title: "Secure Password Generator",
             subtitle: "SECURE PASSWORD GENERATOR",
-            languageLabel: "Language:",
             instruction: "> MOVE CURSOR / TOUCH SCREEN => COLLECT ENTROPY => GENERATE",
-            awaitingGeneration: "[ AWAITING GENERATION ]",
-            readyForGeneration: "[ READY FOR GENERATION ]",
+            awaitingGeneration: "> AWAITING GENERATION...",
+            readyForGeneration: "> READY FOR GENERATION...",
             entropyHeader: "[ ENTROPY ]",
-            showDetails: "SHOW DETAILS",
-            hideDetails: "HIDE DETAILS",
             collected: "COLLECTED",
             seedNoData: "SEED: NO DATA GENERATED",
             length: "LENGTH",
@@ -81,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             feature2: "<strong>TEMPORAL ENTROPY:</strong> Time delta between events adds entropy.",
             feature3: "<strong>MULTI HASH:</strong> 10000 SHA-512 iterations.",
             feature4: "<strong>CRYPTO API:</strong> Browser API + physical entropy.",
-            feature5: "<strong>SEED VIEW:</strong> Optional seed display.",
+            feature5: "<strong>SEED VIEW:</strong> Displays the seed currently in use.",
             feature6: "<strong>STATUS:</strong> Real-time entropy indicator.",
             errorInsufficientEntropy: "ERROR: INSUFFICIENT ENTROPY\nCollect 1000/1000 points.",
             errorNoCharset: "ERROR: NO CHARSET SELECTED",
@@ -96,6 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const elements = {
         instructionBox: document.querySelector('.generate-instruction'),
         passwordDisplay: document.getElementById('passwordDisplay'),
+        passwordText: document.getElementById('passwordText'),
+        matrixCanvas: document.getElementById('matrixCanvas'),
         lengthSlider: document.getElementById('lengthSlider'),
         lengthValue: document.getElementById('lengthValue'),
         generateBtn: document.getElementById('generateBtn'),
@@ -104,19 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
         entropyCount: document.getElementById('entropyCount'),
         entropyFill: document.getElementById('entropyFill'),
         seedDisplay: document.getElementById('seedDisplay'),
-        langSelector: document.getElementById('lang'),
-        notification: document.getElementById('notification')
+        langSelector: document.querySelector('.lang-selector'),
+        notification: document.getElementById('notification'),
+        langElements: document.querySelectorAll('[data-lang]')
     };
 
-    let userEntropyData = [];
-    let lastEventTime = 0;
-    let currentSeed = null;
-    const pageLoadTime = performance.now();
-    let currentLang = 'it';
-    let passwordGenerated = false;
-
-    function showNotification(messageKey, duration = 3000) {
-        elements.notification.textContent = translations[currentLang][messageKey] || messageKey;
+    function showNotification(messageKey, duration = config.NOTIFICATION_DURATION) {
+        elements.notification.textContent = translations[state.currentLang][messageKey] || messageKey;
         elements.notification.classList.add('show');
         setTimeout(() => {
             elements.notification.classList.remove('show');
@@ -124,38 +129,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setLanguage(lang) {
-        currentLang = lang;
+        state.currentLang = lang;
         document.documentElement.lang = lang;
         const langData = translations[lang];
         if (!langData) return;
 
         document.title = langData.title;
 
-        document.querySelectorAll('[data-lang]').forEach(el => {
+        elements.langElements.forEach(el => {
             const key = el.getAttribute('data-lang');
             if (langData[key]) {
-                el.innerHTML = langData[key];
+                if (key === 'instruction') {
+                    typewriterEffect(el, langData[key]);
+                } else {
+                    el.innerHTML = langData[key];
+                }
             }
         });
         
-        if (!passwordGenerated) {
-            elements.passwordDisplay.textContent = langData.awaitingGeneration;
+        if (!state.passwordGenerated) {
+            typewriterEffect(elements.passwordText, langData.awaitingGeneration);
         }
         
-        if (!currentSeed) {
+        if (!state.currentSeed) {
             elements.seedDisplay.textContent = langData.seedNoData;
         }
     }
 
-    elements.langSelector.addEventListener('change', (e) => {
-        setLanguage(e.target.value);
+    elements.langSelector.addEventListener('click', (e) => {
+        if (e.target.classList.contains('lang-option')) {
+            const lang = e.target.getAttribute('data-lang-option');
+            setLanguage(lang);
+            document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('active'));
+            e.target.classList.add('active');
+        }
     });
 
     document.querySelectorAll('.checkbox-container').forEach(container => {
-        container.addEventListener('click', function() {
-            const checkbox = this.querySelector('input[type="checkbox"]');
+        function toggleCheckbox(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
-            this.classList.toggle('active', checkbox.checked);
+            element.classList.toggle('active', checkbox.checked);
+        }
+
+        container.addEventListener('click', function() {
+            toggleCheckbox(this);
+        });
+
+        container.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleCheckbox(this);
+            }
         });
     });
 
@@ -165,8 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function collectEntropy(e) {
         const currentTime = performance.now();
-        const timeDelta = currentTime - lastEventTime;
-        if (timeDelta < 10) return;
+        const timeDelta = currentTime - state.lastEventTime;
+        if (timeDelta < config.MIN_TIME_DELTA) return;
 
         let point;
         if (e.type.startsWith('touch')) {
@@ -177,34 +202,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const entropyPoint = { ...point, time: currentTime, deltaTime: timeDelta, type: e.type };
-        userEntropyData.push(entropyPoint);
-        lastEventTime = currentTime;
+        state.userEntropyData.push(entropyPoint);
+        state.lastEventTime = currentTime;
 
-        if (userEntropyData.length > MAX_ENTROPY_POINTS) {
-            userEntropyData.shift();
+        if (state.userEntropyData.length > config.MAX_ENTROPY_POINTS) {
+            state.userEntropyData.shift();
         }
         updateEntropyDisplay();
     }
 
     function updateEntropyDisplay() {
-        const currentEntropy = userEntropyData.length;
-        const percentage = (currentEntropy / MAX_ENTROPY_POINTS) * 100;
+        const currentEntropy = state.userEntropyData.length;
+        const percentage = (currentEntropy / config.MAX_ENTROPY_POINTS) * 100;
         elements.entropyCount.textContent = currentEntropy;
         elements.entropyFill.style.width = percentage + '%';
 
-        if (currentEntropy >= MAX_ENTROPY_POINTS && !passwordGenerated) {
-            manageGlowEffect('entropy-ready', elements, translations[currentLang]);
+        if (currentEntropy >= config.MAX_ENTROPY_POINTS && !state.passwordGenerated && !state.isReadyForGeneration) {
+            state.isReadyForGeneration = true;
+            typewriterEffect(elements.passwordText, translations[state.currentLang].readyForGeneration);
+            manageGlowEffect('entropy-ready', elements, translations[state.currentLang]);
         }
     }
 
     async function generateUserSeed() {
-        if (userEntropyData.length < MAX_ENTROPY_POINTS) return null;
-        let entropyString = userEntropyData.map(p => `${p.x}:${p.y}:${p.time.toFixed(4)}:${p.deltaTime.toFixed(4)}:${p.type}`).join('|');
-        const timeBeforeGenerate = performance.now() - pageLoadTime;
+        if (state.userEntropyData.length < config.MAX_ENTROPY_POINTS) return null;
+        let entropyString = state.userEntropyData.map(p => `${p.x}:${p.y}:${p.time.toFixed(4)}:${p.deltaTime.toFixed(4)}:${p.type}`).join('|');
+        const timeBeforeGenerate = performance.now() - state.pageLoadTime;
         entropyString += `|${timeBeforeGenerate}:${navigator.userAgent.length}`;
         let hash = entropyString;
-        for (let i = 0; i < HASH_ROUNDS; i++) {
-            hash = await sha512(hash + i.toString() + (currentSeed || ''));
+        for (let i = 0; i < config.HASH_ROUNDS; i++) {
+            hash = await sha512(hash + i.toString() + (state.currentSeed || ''));
         }
         return hash;
     }
@@ -238,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             const combinedSeed = await sha512(userSeed + Array.from(cryptoArray).join(''));
-            currentSeed = combinedSeed;
+            state.currentSeed = combinedSeed;
 
             elements.seedDisplay.textContent = `SEED (${combinedSeed.length} chars): ${combinedSeed}`;
 
@@ -263,6 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchstart', collectEntropy, { passive: true });
 
     elements.generateBtn.addEventListener('click', async function() {
+        this.disabled = true;
         try {
             const length = parseInt(elements.lengthSlider.value);
             const options = {
@@ -271,57 +299,91 @@ document.addEventListener('DOMContentLoaded', () => {
                 numbers: document.getElementById('numbers').checked,
                 special: document.getElementById('specialChars').checked
             };
+
+            elements.passwordText.textContent = '';
+
             const password = await generateSecurePassword(length, options);
+
             if (password) {
-                passwordGenerated = true;
-                elements.passwordDisplay.textContent = password;
-                flashElement(elements.passwordDisplay);
-                manageGlowEffect('generated', elements, translations[currentLang]);
+                state.passwordGenerated = true;
+                typewriterEffect(elements.passwordText, password, config.TYPEWRITER_SPEED, () => {
+                    flashElement(elements.passwordDisplay);
+                    manageGlowEffect('generated', elements, translations[state.currentLang]);
+                    this.disabled = false;
+                });
+            } else {
+                 typewriterEffect(elements.passwordText, translations[state.currentLang].awaitingGeneration);
+                 this.disabled = false;
             }
         } catch (error) {
             console.error('Error in generate button:', error);
             showNotification('errorGenerateFirst');
+            this.disabled = false;
         }
     });
 
-    elements.copyBtn.addEventListener('click', function() {
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+      
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+      
         try {
-            if (!passwordGenerated) {
-                showNotification('errorGenerateFirst');
-                return;
-            }
-            if (!navigator.clipboard) {
-                showNotification('errorClipboard');
-                return;
-            }
-            navigator.clipboard.writeText(elements.passwordDisplay.textContent).then(() => {
+            const successful = document.execCommand('copy');
+            if (successful) {
                 showNotification('copied');
-                manageGlowEffect('copied_or_exported', elements, translations[currentLang]);
-            }).catch(error => {
-                console.error('Error copying to clipboard:', error);
+                manageGlowEffect('copied_or_exported', elements, translations[state.currentLang]);
+            } else {
                 showNotification('errorClipboard');
-            });
-        } catch (error) {
-            console.error('Error in copy button:', error);
+            }
+        } catch (err) {
             showNotification('errorClipboard');
+        }
+      
+        document.body.removeChild(textArea);
+    }
+
+    elements.copyBtn.addEventListener('click', function() {
+        if (!state.passwordGenerated) {
+            showNotification('errorGenerateFirst');
+            return;
+        }
+        const passwordToCopy = elements.passwordText.textContent;
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(passwordToCopy).then(() => {
+                showNotification('copied');
+                manageGlowEffect('copied_or_exported', elements, translations[state.currentLang]);
+            }).catch(err => {
+                console.error('Async clipboard copy failed, falling back:', err);
+                fallbackCopyTextToClipboard(passwordToCopy);
+            });
+        } else {
+            fallbackCopyTextToClipboard(passwordToCopy);
         }
     });
 
     elements.saveBtn.addEventListener('click', function() {
         try {
-            if (!passwordGenerated) {
+            if (!state.passwordGenerated) {
                 showNotification('errorGenerateFirst');
                 return;
             }
             
-            if (!confirm(translations[currentLang].exportWarning)) {
+            if (!confirm(translations[state.currentLang].exportWarning)) {
                 return;
             }
 
-            manageGlowEffect('copied_or_exported', elements, translations[currentLang]);
-            const password = elements.passwordDisplay.textContent;
+            manageGlowEffect('copied_or_exported', elements, translations[state.currentLang]);
+            const password = elements.passwordText.textContent;
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            const seedInfo = currentSeed ? `\n\nSEED:\n${currentSeed}` : '';
+            const seedInfo = state.currentSeed ? `\n\nSEED:\n${state.currentSeed}` : '';
             const content = `PASSWORD: ${password}\nTIME: ${new Date().toLocaleString()}${seedInfo}`;
             const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
@@ -339,9 +401,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    setLanguage(currentLang);
+    setLanguage(state.currentLang);
     updateEntropyDisplay();
-    manageGlowEffect('initial', elements, translations[currentLang]);
+    manageGlowEffect('initial', elements, translations[state.currentLang]);
+    startMatrixAnimation(elements.matrixCanvas, charsets);
 
     const featuresHeader = document.getElementById('featuresHeader');
     const instructionsContainer = document.querySelector('.instructions.collapsible');

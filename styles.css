@@ -10,6 +10,13 @@
 
 }
 
+:root {
+    --primary-color: #fcd106;
+    --background-color: #000000;
+    --warning-color: #ff6b00;
+    --flash-color: #3A3000;
+}
+
 * {
 
     box-sizing: border-box;
@@ -26,9 +33,9 @@
 
 body {
 
-    background: #000000;
+    background: var(--background-color);
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     min-height: 100vh;
 
@@ -116,9 +123,9 @@ body::after {
 
     background: rgba(252, 209, 6, 0.1);
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
-    box-shadow: 0 0 10px #fcd106, inset 0 0 10px rgba(252, 209, 6, 0.05);
+    box-shadow: 0 0 10px var(--primary-color), inset 0 0 10px rgba(252, 209, 6, 0.05);
 
     padding: 20px;
 
@@ -162,36 +169,27 @@ body::after {
 
 }
 
-.lang-selector label {
-
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-
-    margin-bottom: 0;
-
-}
-
-.lang-selector select {
-
-    background: #000;
-
-    color: #fcd106;
-
-    border: 2px solid #fcd106;
-
-    padding: 5px;
-
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-
+.lang-option {
     cursor: pointer;
-
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    transition: all 0.2s ease;
+    color: var(--primary-color);
+    text-shadow: 0 0 3px var(--primary-color);
 }
 
-.lang-selector select:focus {
+.lang-option:hover {
+    text-shadow: 0 0 8px var(--primary-color);
+    transform: scale(1.1);
+}
 
-    outline: none;
+.lang-option.active {
+    text-decoration: underline;
+    font-weight: bold;
+}
 
-    box-shadow: 0 0 5px #fcd106;
-
+.lang-separator {
+    margin: 0 10px;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 h1 {
@@ -202,9 +200,9 @@ h1 {
 
     font-weight: 400;
 
-    color: #fcd106;
+    color: var(--primary-color);
 
-    text-shadow: 0 0 5px #fcd106;
+    text-shadow: 0 0 5px var(--primary-color);
 
     letter-spacing: 3px;
 
@@ -218,9 +216,9 @@ h1 {
 
     font-size: clamp(1rem, 3vw, 1.5rem);
 
-    color: #fcd106;
+    color: var(--primary-color);
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
     margin-top: 5px;
 
@@ -231,35 +229,37 @@ h1 {
 }
 
 .password-display {
-
-    background: #000000;
-
-    color: #fcd106;
-
+    background: var(--background-color);
+    color: var(--primary-color);
     padding: 15px;
-
     margin-bottom: 20px;
-
     font-size: clamp(1.4rem, 3vw, 3rem);
-
     min-height: 120px;
-
-    word-break: break-all; 
-
+    word-break: break-all;
     text-align: center;
-
-    border: 3px solid #fcd106;
-
-    text-shadow: 0 0 3px #fcd106;
-
+    border: 3px solid var(--primary-color);
+    text-shadow: 0 0 3px var(--primary-color);
     transition: all 0.3s ease;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
 
+#matrixCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: none; /* Initially hidden */
+}
+
+#passwordText {
+    position: relative;
+    z-index: 2;
 }
 
 .password-display.generated { 
@@ -270,17 +270,17 @@ h1 {
 
 @keyframes flash {
 
-    0%, 100% { background: #000000; }
+    0%, 100% { background: var(--background-color); }
 
-    50% { background: #3A3000; }
+    50% { background: var(--flash-color); }
 
 }
 
 .entropy-section {
 
-    background: #000000;
+    background: var(--background-color);
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
     padding: 15px;
 
@@ -302,7 +302,7 @@ h1 {
 
 .entropy-header h3 {
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     font-size: clamp(1.2rem, 3.5vw, 1.8rem);
 
@@ -314,7 +314,7 @@ h1 {
 
     gap: 8px;
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
     flex-wrap: wrap;
 
@@ -338,11 +338,11 @@ h1 {
 
     font-weight: 400;
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     font-size: clamp(1.3rem, 3.5vw, 1.8rem);
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
 }
 
@@ -352,11 +352,11 @@ h1 {
 
     height: 40px;
 
-    background: #000000;
+    background: var(--background-color);
 
     overflow: hidden;
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
     margin-bottom: 28px;
 
@@ -366,7 +366,7 @@ h1 {
 
     height: 100%;
 
-    background: #fcd106;
+    background: var(--primary-color);
 
     width: 0%;
 
@@ -376,9 +376,9 @@ h1 {
 
 .seed-display {
 
-    background: #000000;
+    background: var(--background-color);
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     padding: 12px;
 
@@ -390,9 +390,9 @@ h1 {
 
     overflow-y: auto;
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
     margin-bottom: 8px;
 
@@ -420,9 +420,9 @@ label {
 
     font-weight: 400;
 
-    color: #fcd106;
+    color: var(--primary-color);
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
 }
 
@@ -432,13 +432,13 @@ input[type="range"] {
 
     height: 20px;
 
-    background: #000000;
+    background: var(--background-color);
 
     outline: none;
 
     -webkit-appearance: none;
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
 }
 
@@ -450,7 +450,7 @@ input[type="range"]::-webkit-slider-thumb {
 
     height: 40px;
 
-    background: #fcd106;
+    background: var(--primary-color);
 
     cursor: pointer;
 
@@ -472,7 +472,7 @@ input[type="range"]::-moz-range-thumb {
 
     height: 40px;
 
-    background: #fcd106;
+    background: var(--primary-color);
 
     cursor: pointer;
 
@@ -490,15 +490,15 @@ input[type="range"]::-moz-range-thumb {
 
     margin-top: 10px;
 
-    background: #000000;
+    background: var(--background-color);
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     padding: 16px;
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
 }
 
@@ -524,11 +524,11 @@ input[type="range"]::-moz-range-thumb {
 
     justify-content: center;
 
-    background: #000000;
+    background: var(--background-color);
 
     padding: 8px 4px;
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
     transition: all 0.2s ease;
 
@@ -548,13 +548,13 @@ input[type="range"]::-moz-range-thumb {
 
 .checkbox-container.active { 
 
-    background: #fcd106; 
+    background: var(--primary-color); 
 
 }
 
 .checkbox-container.active label { 
 
-    color: #000000; 
+    color: var(--background-color); 
 
     text-shadow: none; 
 
@@ -564,6 +564,11 @@ input[type="range"]::-moz-range-thumb {
 
     transform: scale(0.98); 
 
+}
+
+.checkbox-container:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 .checkbox-container input { 
@@ -582,9 +587,9 @@ input[type="range"]::-moz-range-thumb {
 
     font-weight: 400;
 
-    color: #fcd106;
+    color: var(--primary-color);
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
     word-break: break-word;
 
@@ -608,11 +613,11 @@ button {
 
     padding: 25px 20px;
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
-    background: #000000;
+    background: var(--background-color);
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     font-size: clamp(1.8rem, 5vw, 2.2rem);
 
@@ -628,7 +633,7 @@ button {
 
     touch-action: manipulation;
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
     flex-grow: 1;
 
@@ -638,9 +643,9 @@ button {
 
 button:active {
 
-    background: #fcd106;
+    background: var(--primary-color);
 
-    color: #000000;
+    color: var(--background-color);
 
     text-shadow: none;
 
@@ -656,19 +661,21 @@ button:active {
 
     padding: 12px;
 
-    background: #000000;
+    background: var(--background-color);
 
-    color: #fcd106;
+    color: var(--primary-color);
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
     font-weight: 400;
 
     font-size: clamp(1.0rem, 3vw, 1.5rem);
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
     line-height: 1.6;
+
+    min-height: calc(1.6em + 30px); /* 1.6em for one line of text + 24px padding + 6px border */
 
 }
 
@@ -678,11 +685,11 @@ button:active {
 
     padding: 20px;
 
-    background: #000000;
+    background: var(--background-color);
 
-    border: 3px solid #fcd106;
+    border: 3px solid var(--primary-color);
 
-    border-left: 10px solid #fcd106;
+    border-left: 10px solid var(--primary-color);
 
     line-height: 1.8;
 
@@ -692,13 +699,13 @@ button:active {
 
     margin-bottom: 16px;
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     font-size: clamp(1.2rem, 4vw, 1.8rem);
 
     font-weight: 400;
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
     cursor: pointer;
 
@@ -722,7 +729,7 @@ button:active {
 
     margin-bottom: 12px;
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     font-weight: 400;
 
@@ -732,11 +739,11 @@ button:active {
 
 .instructions strong {
 
-    color: #fcd106;
+    color: var(--primary-color);
 
     font-weight: 400;
 
-    text-shadow: 0 0 3px #fcd106;
+    text-shadow: 0 0 3px var(--primary-color);
 
 }
 
@@ -750,15 +757,15 @@ button:active {
 
     transform: translateX(-50%);
 
-    background-color: #fcd106;
+    background-color: var(--primary-color);
 
-    color: #000;
+    color: var(--background-color);
 
     padding: 15px 25px;
 
-    border: 3px solid #000;
+    border: 3px solid var(--background-color);
 
-    box-shadow: 0 0 10px #fcd106;
+    box-shadow: 0 0 10px var(--primary-color);
 
     z-index: 10000;
 
@@ -784,15 +791,15 @@ button:active {
 
 .security-warning {
 
-    background: #000000;
+    background: var(--background-color);
 
-    border: 3px solid #ff6b00;
+    border: 3px solid var(--warning-color);
 
     padding: 15px;
 
-    color: #ff6b00;
+    color: var(--warning-color);
 
-    text-shadow: 0 0 3px #ff6b00;
+    text-shadow: 0 0 3px var(--warning-color);
 
     position: fixed;
 
@@ -824,7 +831,7 @@ button:active {
 
     margin-bottom: 10px;
 
-    text-shadow: 0 0 5px #ff6b00;
+    text-shadow: 0 0 5px var(--warning-color);
 
     text-align: center;
 
@@ -847,19 +854,14 @@ button:active {
 }
 
 @keyframes breathing-glow {
-
     0%, 100% {
-
-        box-shadow: 0 0 10px #fcd106, inset 0 0 10px rgba(252, 209, 6, 0.15);
-
+        box-shadow: 0 0 10px var(--primary-color), inset 0 0 10px rgba(252, 209, 6, 0.15);
+        text-shadow: 0 0 3px var(--primary-color);
     }
-
     50% {
-
-        box-shadow: 0 0 20px #fcd106, inset 0 0 10px rgba(252, 209, 6, 1.5);
-
+        box-shadow: 0 0 20px var(--primary-color), inset 0 0 10px rgba(252, 209, 6, 1.5);
+        text-shadow: 0 0 8px var(--primary-color);
     }
-
 }
 
 @keyframes fadeInOut {
@@ -938,7 +940,7 @@ button:active {
 
         flex-direction: row;
 
-        justify-content: space-between;
+        justify-content: center;
 
         align-items: center;
 
@@ -990,31 +992,35 @@ button:active {
 
     
 
-    button:hover {
+    @media (hover: hover) {
 
-        background: #fcd106;
+        button:hover {
 
-        color: #000000;
+            background: var(--primary-color);
 
-        text-shadow: none;
+            color: var(--background-color);
 
-    }
+            text-shadow: none;
 
-    
+        }
 
-    .checkbox-container:hover { 
+        
 
-        background: #fcd106; 
+        .checkbox-container:hover { 
 
-    }
+            background: var(--primary-color); 
 
-    
+        }
 
-    .checkbox-container:hover label { 
+        
 
-        color: #000000; 
+        .checkbox-container:hover label { 
 
-        text-shadow: none; 
+            color: var(--background-color); 
+
+            text-shadow: none; 
+
+        }
 
     }
 
