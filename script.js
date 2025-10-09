@@ -63,7 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
             copied: "[ COPIATO ]",
             exportWarning: "ATTENZIONE: I file di testo non sono SICURI.\n\nEliminare subito dopo aver copiato nel gestore di password.\n\nPROCEDERE?",
             errorCrypto: "ERRORE: API CRITTOGRAFICA NON SUPPORTATA O BLOCCATA.",
-            errorClipboard: "ERRORE: IMPOSSIBILE COPIARE NEGLI APPUNTI."
+            errorClipboard: "ERRORE: IMPOSSIBILE COPIARE NEGLI APPUNTI.",
+            confirmYes: "PROCEDI",
+            confirmNo: "ANNULLA"
         },
         en: {
             securityWarningHeader: "⚠ SECURITY WARNING",
@@ -98,7 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
             copied: "[ COPIED ]",
             exportWarning: "WARNING: Plain text files are NOT SECURE.\n\nDelete immediately after copying to password manager.\n\nPROCEED?",
             errorCrypto: "ERROR: CRYPTO API NOT SUPPORTED OR BLOCKED.",
-            errorClipboard: "ERROR: FAILED TO COPY TO CLIPBOARD."
+            errorClipboard: "ERROR: FAILED TO COPY TO CLIPBOARD.",
+            confirmYes: "PROCEED",
+            confirmNo: "CANCEL"
         }
     };
 
@@ -117,8 +121,27 @@ document.addEventListener('DOMContentLoaded', () => {
         seedDisplay: document.getElementById('seedDisplay'),
         langSelector: document.querySelector('.lang-selector'),
         notification: document.getElementById('notification'),
-        langElements: document.querySelectorAll('[data-lang]')
+        langElements: document.querySelectorAll('[data-lang]'),
+        customConfirm: document.getElementById('customConfirm'),
+        customConfirmMessage: document.getElementById('customConfirmMessage'),
+        customConfirmYes: document.getElementById('customConfirmYes'),
+        customConfirmNo: document.getElementById('customConfirmNo')
     };
+
+    function showCustomConfirm(messageKey, callback) {
+        elements.customConfirmMessage.textContent = translations[state.currentLang][messageKey];
+        elements.customConfirm.classList.add('show');
+
+        elements.customConfirmYes.onclick = () => {
+            elements.customConfirm.classList.remove('show');
+            callback(true);
+        };
+
+        elements.customConfirmNo.onclick = () => {
+            elements.customConfirm.classList.remove('show');
+            callback(false);
+        };
+    }
 
     function showNotification(messageKey, duration = config.NOTIFICATION_DURATION) {
         elements.notification.textContent = translations[state.currentLang][messageKey] || messageKey;
@@ -376,26 +399,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            if (!confirm(translations[state.currentLang].exportWarning)) {
-                return;
-            }
+            showCustomConfirm('exportWarning', (proceed) => {
+                if (!proceed) {
+                    return;
+                }
 
-            manageGlowEffect('copied_or_exported', elements, translations[state.currentLang]);
-            const password = elements.passwordText.textContent;
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            const seedInfo = state.currentSeed ? `\n\nSEED:\n${state.currentSeed}` : '';
-            const content = `PASSWORD: ${password}\nTIME: ${new Date().toLocaleString()}${seedInfo}`;
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `pwd-${timestamp}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 100);
+                manageGlowEffect('copied_or_exported', elements, translations[state.currentLang]);
+                const password = elements.passwordText.textContent;
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const seedInfo = state.currentSeed ? `\n\nSEED:\n${state.currentSeed}` : '';
+                const content = `PASSWORD: ${password}\nTIME: ${new Date().toLocaleString()}${seedInfo}`;
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `pwd-${timestamp}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            });
         } catch (error) {
             console.error('Error in save button:', error);
         }

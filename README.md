@@ -31,10 +31,14 @@ I browser non sono ambienti a prova di manomissione. Estensioni malevole o attac
   - Caratteri speciali (!@#$%^&*()_+-=[]{}|;:,.<>?~`)
 
 ### UI/UX
-- **Design CRT retro**: Effetto schermo vintage con flickering e scanlines
-- **Glow breathing**: Animazioni che guidano l'utente attraverso il workflow
-- **Responsive**: Ottimizzato per desktop, tablet e mobile
-- **Bilingue**: Italiano e Inglese
+- **Design CRT retro**: Effetto schermo vintage con flickering e scanlines.
+- **Matrix Animation**: Animazione a cascata in stile "Matrix" nel display della password.
+- **Typewriter Effect**: Testo che appare con un effetto macchina da scrivere per un feedback dinamico.
+- **Glow Breathing**: Animazioni che guidano l'utente attraverso il workflow.
+- **Modal di Conferma Personalizzato**: Avviso di sicurezza per l'esportazione con uno stile coerente all'interfaccia.
+- **Interfaccia Interattiva**: Sezioni collassabili e checkbox personalizzate.
+- **Responsive**: Ottimizzato per desktop, tablet e mobile.
+- **Bilingue**: Italiano e Inglese.
 
 ## 🚀 Installazione
 

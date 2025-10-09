@@ -864,6 +864,56 @@ button:active {
     }
 }
 
+.custom-confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10002;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.custom-confirm-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-confirm-box {
+    background: var(--background-color);
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.custom-confirm-box p {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    margin-bottom: 25px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.custom-confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.custom-confirm-buttons button {
+    padding: 15px 25px;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    min-height: auto;
+}
+
 @keyframes fadeInOut {
 
     0% {
