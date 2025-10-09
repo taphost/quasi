@@ -54,7 +54,7 @@ quasi/
 ├── script.js
 ├── animations.js
 ├── fonts/
-│   └── VT323 Regular.woff2
+│   └── VT323-Regular.woff2
 └── README.md
 ```
 
