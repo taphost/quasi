@@ -135,7 +135,6 @@ Richiede supporto per:
 
 ### Touch Optimization
 
-- Tap highlight rimosso
 - Touch-action: manipulation sui bottoni
 - Eventi touch passivi per performance
 - Font scaling fluido con clamp()
