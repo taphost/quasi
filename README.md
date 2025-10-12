@@ -186,16 +186,6 @@ const translations = {
 
 MIT License - Sentiti libero di usare e modificare per i tuoi progetti.
 
-## 🤝 Contributi
-
-I contributi sono benvenuti! Per modifiche importanti:
-
-1. Fork del progetto
-2. Crea feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit delle modifiche (`git commit -m 'Add AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Apri una Pull Request
-
 ## 🐛 Bug Report
 
 Apri un issue su GitHub includendo:
@@ -216,5 +206,3 @@ Apri un issue su GitHub includendo:
 - Design: Ispirato ai terminali CRT vintage
 
 ---
-
-**Made with 🔐 for password security**
