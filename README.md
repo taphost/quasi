@@ -66,15 +66,6 @@ quasi/
 4. **Clicca GENERA** quando la barra entropia è piena
 5. **COPIA** negli appunti o **ESPORTA** in file di testo
 
-### Workflow Guidato
-
-L'interfaccia usa animazioni "breathing glow" per guidare l'utente:
-
-- **Stato iniziale**: Glow su istruzioni
-- **Entropia pronta**: Glow su display password e bottone GENERA
-- **Password generata**: Glow su display, COPIA e ESPORTA
-- **Copiata/Esportata**: Tutti i glow si fermano
-
 ## 🔐 Sicurezza
 
 ### Architettura Crittografica
@@ -157,13 +148,6 @@ Richiede supporto per:
 --primary: #fcd106;  /* Giallo CRT */
 --bg: #000000;       /* Nero puro */
 --warning: #ff6b00;  /* Arancione warning */
-```
-
-### Timing Entropia
-
-```javascript
-const MAX_ENTROPY_POINTS = 1000;  // Punti richiesti
-const HASH_ROUNDS = 10000;        // Iterazioni SHA-512
 ```
 
 ## 🌐 Localizzazione
