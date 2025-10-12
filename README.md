@@ -170,14 +170,6 @@ const translations = {
 
 MIT License - Sentiti libero di usare e modificare per i tuoi progetti.
 
-## 🐛 Bug Report
-
-Apri un issue su GitHub includendo:
-- Browser e versione
-- Sistema operativo
-- Passi per riprodurre
-- Screenshot (senza seed visibili!)
-
 ## 📚 Risorse
 
 - [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
