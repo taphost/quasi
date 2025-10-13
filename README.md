@@ -1,5 +1,6 @@
-# [ QUASI ] - Secure Password Generator
-
+# [ QUASI ]
+### Secure Password Generator
+---
 ![Version](https://img.shields.io/badge/version-1.0.0-yellow.svg)
 ![License](https://img.shields.io/badge/license-MIT-yellow.svg)
 ![Security](https://img.shields.io/badge/security-cryptographic-orange.svg)
