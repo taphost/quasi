@@ -193,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('active', checkbox.checked);
+            element.setAttribute('aria-checked', checkbox.checked);
         }
 
         container.addEventListener('click', function() {

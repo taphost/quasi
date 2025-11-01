@@ -887,12 +887,29 @@ button:active {
 
 .custom-confirm-box {
     background: var(--background-color);
-    border: 3px solid var(--primary-color);
-    box-shadow: 0 0 15px var(--primary-color);
+    border: 3px solid var(--warning-color);
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
     padding: 30px;
     width: 90%;
     max-width: 500px;
     text-align: center;
+    color: var(--warning-color);
+    text-shadow: 0 0 3px var(--warning-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-confirm-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 50%, rgba(255, 107, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .custom-confirm-box p {
@@ -900,18 +917,31 @@ button:active {
     margin-bottom: 25px;
     line-height: 1.6;
     white-space: pre-wrap;
+    position: relative;
+    z-index: 2;
 }
 
 .custom-confirm-buttons {
     display: flex;
     justify-content: center;
     gap: 15px;
+    position: relative;
+    z-index: 2;
 }
 
 .custom-confirm-buttons button {
     padding: 15px 25px;
     font-size: clamp(1.2rem, 4vw, 1.5rem);
     min-height: auto;
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+    text-shadow: 0 0 3px var(--warning-color);
+}
+
+.custom-confirm-buttons button:active {
+    background: var(--warning-color);
+    color: var(--background-color);
+    text-shadow: none;
 }
 
 @keyframes fadeInOut {
@@ -1056,20 +1086,9 @@ button:active {
 
         
 
-        .checkbox-container:hover { 
-
-            background: var(--primary-color); 
-
-        }
-
-        
-
-        .checkbox-container:hover label { 
-
-            color: var(--background-color); 
-
-            text-shadow: none; 
-
+        .checkbox-container:hover {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
 
     }
