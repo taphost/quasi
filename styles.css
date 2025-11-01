@@ -1,244 +1,159 @@
 @font-face {
-
     font-family: 'VT323';
-
     src: url('/fonts/VT323-Regular.woff2') format('woff2');
-
     font-weight: normal;
-
     font-style: normal;
-
 }
-
 :root {
     --primary-color: #fcd106;
     --background-color: #000000;
     --warning-color: #ff6b00;
     --flash-color: #3A3000;
 }
-
 * {
-
     box-sizing: border-box;
-
     margin: 0;
-
     padding: 0;
-
     font-family: 'VT323', monospace;
-
     -webkit-tap-highlight-color: transparent;
-
 }
-
 body {
-
     background: var(--background-color);
-
     color: var(--primary-color);
-
     min-height: 100vh;
-
     padding: 10px;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     position: relative;
-
 }
-
 body::before {
-
     content: "";
-
     position: fixed;
-
     top: 0;
-
     left: 0;
-
     width: 100%;
-
     height: 100%;
-
     background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-
     background-size: 100% 4px;
-
     pointer-events: none;
-
     z-index: 9999;
-
 }
-
 body::after {
-
     content: "";
-
     position: fixed;
-
     top: 0;
-
     left: 0;
-
     width: 100%;
-
     height: 100%;
-
     background: rgba(18, 16, 16, 0.1);
-
     opacity: 0;
-
     pointer-events: none;
-
     z-index: 9998;
-
     animation: flicker 0.15s infinite;
-
 }
-
 @keyframes flicker {
-
     0% { opacity: 0.27861; } 5% { opacity: 0.34769; } 10% { opacity: 0.23604; }
-
     15% { opacity: 0.90626; } 20% { opacity: 0.18128; } 25% { opacity: 0.83891; }
-
     30% { opacity: 0.65583; } 35% { opacity: 0.67807; } 40% { opacity: 0.26559; }
-
     45% { opacity: 0.84693; } 50% { opacity: 0.96019; } 55% { opacity: 0.08594; }
-
     60% { opacity: 0.20313; } 65% { opacity: 0.71988; } 70% { opacity: 0.53455; }
-
     75% { opacity: 0.37288; } 80% { opacity: 0.71428; } 85% { opacity: 0.70419; }
-
     90% { opacity: 0.7003; } 95% { opacity: 0.36108; } 100% { opacity: 0.24387; }
-
 }
-
-.container {
-
-    background: rgba(252, 209, 6, 0.1);
-
+/* --- Refactored Grouped Styles --- */
+.password-display,
+.entropy-section,
+.seed-display,
+input[type="range"],
+.checkbox-container,
+button,
+.generate-instruction,
+.instructions {
+    background: var(--background-color);
     border: 3px solid var(--primary-color);
-
+}
+.lang-option,
+h1,
+.subtitle,
+.password-display,
+.entropy-header h3,
+.mouse-entropy label,
+.seed-display,
+label,
+.checkbox-container label,
+button,
+.generate-instruction,
+.instructions h3,
+.instructions li,
+.instructions strong {
+    color: var(--primary-color);
+    text-shadow: 0 0 3px var(--primary-color);
+}
+.container {
+    background: rgba(252, 209, 6, 0.1);
+    border: 3px solid var(--primary-color);
     box-shadow: 0 0 10px var(--primary-color), inset 0 0 10px rgba(252, 209, 6, 0.05);
-
     padding: 20px;
-
     width: 100%;
-
     max-width: 700px;
-
     position: relative;
-
     z-index: 1;
-
     margin: 0 auto;
-
 }
-
 .header-controls {
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     margin-bottom: 20px;
-
 }
-
 .lang-selector {
-
     margin-top: 15px;
-
     margin-bottom: 25px;
-
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     justify-content: center;
-
 }
-
 .lang-option {
     cursor: pointer;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
     transition: all 0.2s ease;
-    color: var(--primary-color);
-    text-shadow: 0 0 3px var(--primary-color);
 }
-
 .lang-option:hover {
     text-shadow: 0 0 8px var(--primary-color);
     transform: scale(1.1);
 }
-
 .lang-option.active {
     text-decoration: underline;
     font-weight: bold;
 }
-
 .lang-separator {
     margin: 0 10px;
     font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
-
 h1 {
-
     text-align: center;
-
     font-size: clamp(3rem, 14vw, 6rem);
-
     font-weight: 400;
-
-    color: var(--primary-color);
-
     text-shadow: 0 0 5px var(--primary-color);
-
     letter-spacing: 3px;
-
     line-height: 1;
-
     margin-bottom: 20px;
-
 }
-
 .subtitle {
-
     font-size: clamp(1rem, 3vw, 1.5rem);
-
-    color: var(--primary-color);
-
-    text-shadow: 0 0 3px var(--primary-color);
-
     margin-top: 5px;
-
     letter-spacing: 2px;
-
     margin-bottom: 5px;
-
 }
-
 .password-display {
-    background: var(--background-color);
-    color: var(--primary-color);
     padding: 15px;
     margin-bottom: 20px;
     font-size: clamp(1.4rem, 3vw, 3rem);
     min-height: 120px;
     word-break: break-all;
     text-align: center;
-    border: 3px solid var(--primary-color);
-    text-shadow: 0 0 3px var(--primary-color);
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
@@ -246,7 +161,6 @@ h1 {
     position: relative;
     overflow: hidden;
 }
-
 #matrixCanvas {
     position: absolute;
     top: 0;
@@ -256,603 +170,274 @@ h1 {
     z-index: 1;
     display: none; /* Initially hidden */
 }
-
 #passwordText {
     position: relative;
     z-index: 2;
 }
-
 .password-display.generated { 
-
     animation: flash 0.5s ease; 
-
 }
-
 @keyframes flash {
-
     0%, 100% { background: var(--background-color); }
-
     50% { background: var(--flash-color); }
-
 }
-
 .entropy-section {
-
-    background: var(--background-color);
-
-    border: 3px solid var(--primary-color);
-
     padding: 15px;
-
     margin-bottom: 20px;
-
 }
-
 .entropy-header {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 10px;
-
     margin-bottom: 15px;
-
 }
-
 .entropy-header h3 {
-
-    color: var(--primary-color);
-
     font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-
     font-weight: 400;
-
     display: flex;
-
     align-items: center;
-
     gap: 8px;
-
-    text-shadow: 0 0 3px var(--primary-color);
-
     flex-wrap: wrap;
-
     text-align: center;
-
     justify-content: center;
-
 }
-
 .mouse-entropy { 
-
     margin-bottom: 15px; 
-
 }
-
 .mouse-entropy label {
-
     display: block;
-
     margin-bottom: 10px;
-
     font-weight: 400;
-
-    color: var(--primary-color);
-
     font-size: clamp(1.3rem, 3.5vw, 1.8rem);
-
-    text-shadow: 0 0 3px var(--primary-color);
-
 }
-
 .entropy-bar {
-
     width: 100%;
-
     height: 40px;
-
     background: var(--background-color);
-
     overflow: hidden;
-
     border: 3px solid var(--primary-color);
-
     margin-bottom: 28px;
-
 }
-
 .entropy-fill {
-
     height: 100%;
-
     background: var(--primary-color);
-
     width: 0%;
-
     transition: width 0.3s ease;
-
 }
-
 .seed-display {
-
-    background: var(--background-color);
-
-    color: var(--primary-color);
-
     padding: 12px;
-
     font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-
     word-break: break-all;
-
     max-height: 120px;
-
     overflow-y: auto;
-
-    border: 3px solid var(--primary-color);
-
-    text-shadow: 0 0 3px var(--primary-color);
-
     margin-bottom: 8px;
-
 }
-
 .controls { 
-
     margin-bottom: 40px; 
-
 }
-
 .slider-container { 
-
     margin: 20px 0; 
-
 }
-
 label {
-
     display: block;
-
     margin-bottom: 20px;
-
     font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-
     font-weight: 400;
-
-    color: var(--primary-color);
-
-    text-shadow: 0 0 3px var(--primary-color);
-
 }
-
 input[type="range"] {
-
     width: 100%;
-
     height: 20px;
-
-    background: var(--background-color);
-
     outline: none;
-
     -webkit-appearance: none;
-
-    border: 3px solid var(--primary-color);
-
 }
-
 input[type="range"]::-webkit-slider-thumb {
-
     -webkit-appearance: none;
-
     width: 40px;
-
     height: 40px;
-
     background: var(--primary-color);
-
     cursor: pointer;
-
     border: none;
-
     transition: all 0.2s ease;
-
 }
-
 input[type="range"]::-webkit-slider-thumb:active { 
-
     transform: scale(1.1); 
-
 }
-
 input[type="range"]::-moz-range-thumb {
-
     width: 40px;
-
     height: 40px;
-
     background: var(--primary-color);
-
     cursor: pointer;
-
     border: none;
-
 }
-
 .length-display {
-
     text-align: center;
-
     font-size: clamp(1.5rem, 4vw, 2rem);
-
     font-weight: 400;
-
     margin-top: 10px;
-
     background: var(--background-color);
-
     color: var(--primary-color);
-
     padding: 16px;
-
     border: 3px solid var(--primary-color);
-
     text-shadow: 0 0 3px var(--primary-color);
-
 }
-
 .checkboxes {
-
     display: flex;
-
     flex-wrap: wrap;
-
     justify-content: space-between;
-
     gap: 10px;
-
     margin-bottom: 20px;
-
 }
-
 .checkbox-container {
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
-    background: var(--background-color);
-
     padding: 8px 4px;
-
-    border: 3px solid var(--primary-color);
-
     transition: all 0.2s ease;
-
     cursor: pointer;
-
     min-height: 30px;
-
     flex-grow: 1;
-
     flex-basis: calc(50% - 5px);
-
     min-width: 0;
-
     text-align: center;
-
 }
-
 .checkbox-container.active { 
-
     background: var(--primary-color); 
-
 }
-
 .checkbox-container.active label { 
-
     color: var(--background-color); 
-
     text-shadow: none; 
-
 }
-
 .checkbox-container:active { 
-
     transform: scale(0.98); 
-
 }
-
 .checkbox-container:focus {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
-
 .checkbox-container input { 
-
     display: none; 
-
 }
-
 .checkbox-container label {
-
     margin-bottom: 0;
-
     cursor: pointer;
-
     font-size: clamp(0.8rem, 2.5vw, 1.1rem);
-
     font-weight: 400;
-
-    color: var(--primary-color);
-
-    text-shadow: 0 0 3px var(--primary-color);
-
     word-break: break-word;
-
 }
-
 .buttons {
-
     display: flex;
-
     flex-wrap: wrap;
-
     justify-content: center;
-
     gap: 15px;
-
     margin-top: 20px;
-
 }
-
 button {
-
     padding: 25px 20px;
-
-    border: 3px solid var(--primary-color);
-
-    background: var(--background-color);
-
-    color: var(--primary-color);
-
     font-size: clamp(1.8rem, 5vw, 2.2rem);
-
     font-weight: 400;
-
     cursor: pointer;
-
     transition: all 0.2s ease;
-
     text-transform: uppercase;
-
     min-height: 80px;
-
     touch-action: manipulation;
-
-    text-shadow: 0 0 3px var(--primary-color);
-
     flex-grow: 1;
-
     flex-basis: 200px;
-
 }
-
 button:active {
-
     background: var(--primary-color);
-
     color: var(--background-color);
-
     text-shadow: none;
-
     transform: scale(0.98);
-
 }
-
 .generate-instruction {
-
     text-align: center;
-
     margin-bottom: 20px;
-
     padding: 12px;
-
-    background: var(--background-color);
-
-    color: var(--primary-color);
-
-    border: 3px solid var(--primary-color);
-
     font-weight: 400;
-
     font-size: clamp(1.0rem, 3vw, 1.5rem);
-
-    text-shadow: 0 0 3px var(--primary-color);
-
     line-height: 1.6;
-
     min-height: calc(1.6em + 30px); /* 1.6em for one line of text + 24px padding + 6px border */
-
 }
-
 .instructions {
-
     margin-top: 20px;
-
     padding: 20px;
-
-    background: var(--background-color);
-
-    border: 3px solid var(--primary-color);
-
     border-left: 10px solid var(--primary-color);
-
     line-height: 1.8;
-
 }
-
 .instructions h3 {
-
     margin-bottom: 16px;
-
-    color: var(--primary-color);
-
     font-size: clamp(1.2rem, 4vw, 1.8rem);
-
     font-weight: 400;
-
-    text-shadow: 0 0 3px var(--primary-color);
-
     cursor: pointer;
-
     text-align: center;
-
 }
-
 .instructions.collapsible.collapsed #featuresList {
-
     display: none;
-
 }
-
 .instructions ul { 
-
     padding-left: 20px; 
-
 }
-
 .instructions li {
-
     margin-bottom: 12px;
-
-    color: var(--primary-color);
-
     font-weight: 400;
-
     font-size: clamp(1.2rem, 3vw, 1.5rem);
-
 }
-
 .instructions strong {
-
-    color: var(--primary-color);
-
     font-weight: 400;
-
-    text-shadow: 0 0 3px var(--primary-color);
-
 }
-
 .notification {
-
     position: fixed;
-
     top: 20px;
-
     left: 50%;
-
     transform: translateX(-50%);
-
     background-color: var(--primary-color);
-
     color: var(--background-color);
-
     padding: 15px 25px;
-
     border: 3px solid var(--background-color);
-
     box-shadow: 0 0 10px var(--primary-color);
-
     z-index: 10000;
-
     font-size: 1.5rem;
-
     text-align: center;
-
     opacity: 0;
-
     visibility: hidden;
-
     transition: opacity 0.3s, visibility 0.3s;
-
 }
-
 .notification.show {
-
     opacity: 1;
-
     visibility: visible;
-
 }
-
 .security-warning {
-
     background: var(--background-color);
-
     border: 3px solid var(--warning-color);
-
     padding: 15px;
-
     color: var(--warning-color);
-
     text-shadow: 0 0 3px var(--warning-color);
-
     position: fixed;
-
     left: 50%;
-
     top: 50%;
-
     transform: translate(-50%, -50%);
-
     z-index: 10001;
-
     width: 90%;
-
     max-width: 600px;
-
     opacity: 0;
-
     animation: fadeInOut 6s ease-in-out forwards;
-
     pointer-events: none;
-
     box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
-
 }
-
 .security-warning h3 {
-
     font-size: clamp(1rem, 3.5vw, 1.3rem);
-
     margin-bottom: 10px;
-
     text-shadow: 0 0 5px var(--warning-color);
-
     text-align: center;
-
 }
-
 .security-warning p {
-
     font-size: clamp(0.9rem, 2.8vw, 1.2rem);
-
     line-height: 1.5;
-
     margin-bottom: 0;
-
 }
-
 .breathing-glow {
-
     animation: breathing-glow 2s infinite ease-in-out;
-
 }
-
 @keyframes breathing-glow {
     0%, 100% {
         box-shadow: 0 0 10px var(--primary-color), inset 0 0 10px rgba(252, 209, 6, 0.15);
@@ -863,7 +448,6 @@ button:active {
         text-shadow: 0 0 8px var(--primary-color);
     }
 }
-
 .custom-confirm-overlay {
     position: fixed;
     top: 0;
@@ -879,12 +463,10 @@ button:active {
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
 }
-
 .custom-confirm-overlay.show {
     opacity: 1;
     visibility: visible;
 }
-
 .custom-confirm-box {
     background: var(--background-color);
     border: 3px solid var(--warning-color);
@@ -898,7 +480,6 @@ button:active {
     position: relative;
     overflow: hidden;
 }
-
 .custom-confirm-box::before {
     content: "";
     position: absolute;
@@ -911,7 +492,6 @@ button:active {
     pointer-events: none;
     z-index: 1;
 }
-
 .custom-confirm-box p {
     font-size: clamp(1.2rem, 3.5vw, 1.6rem);
     margin-bottom: 25px;
@@ -920,7 +500,6 @@ button:active {
     position: relative;
     z-index: 2;
 }
-
 .custom-confirm-buttons {
     display: flex;
     justify-content: center;
@@ -928,7 +507,6 @@ button:active {
     position: relative;
     z-index: 2;
 }
-
 .custom-confirm-buttons button {
     padding: 15px 25px;
     font-size: clamp(1.2rem, 4vw, 1.5rem);
@@ -937,284 +515,136 @@ button:active {
     color: var(--warning-color);
     text-shadow: 0 0 3px var(--warning-color);
 }
-
 .custom-confirm-buttons button:active {
-    background: var(--warning-color);
+    background-color: var(--warning-color);
+    background-image: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
     color: var(--background-color);
     text-shadow: none;
 }
-
 @keyframes fadeInOut {
-
     0% {
-
         opacity: 0;
-
         transform: translate(-50%, -50%) scale(0.9);
-
     }
-
     15% {
-
         opacity: 1;
-
         transform: translate(-50%, -50%) scale(1);
-
     }
-
     85% {
-
         opacity: 1;
-
         transform: translate(-50%, -50%) scale(1);
-
     }
-
     100% {
-
         opacity: 0;
-
         transform: translate(-50%, -50%) scale(0.9);
-
     }
-
 }
-
 /* Desktop Optimization */
-
 @media (min-width: 1024px) {
-
     .container {
-
         max-width: 1200px;
-
         padding: 40px;
-
     }
-
-    
-
     .header-controls {
-
         flex-direction: column;
-
         justify-content: center;
-
         align-items: center;
-
         position: relative;
-
     }
-
-    
-
     .lang-selector {
-
         margin-top: 15px;
-
     }
-
-    
-
     .entropy-header {
-
         flex-direction: row;
-
         justify-content: center;
-
         align-items: center;
-
     }
-
-    
-
     .checkboxes {
-
         grid-template-columns: repeat(4, 1fr);
-
         gap: 16px;
-
     }
-
-    
-
     .checkbox-container {
-
         flex-basis: calc(25% - 12px);
-
     }
-
-    
-
     .buttons {
-
         display: flex;
-
         justify-content: center;
-
         gap: 20px;
-
         margin-top: 30px;
-
     }
-
-    
-
     .buttons button {
-
         flex-basis: 280px;
-
         font-size: 2.5rem;
-
         padding: 20px;
-
     }
-
-    
-
     @media (hover: hover) {
-
         button:hover {
-
-            background: var(--primary-color);
-
             color: var(--background-color);
-
             text-shadow: none;
-
         }
-
+        button:not(.custom-confirm-buttons button):hover {
+            background: var(--primary-color);
+        }
         .custom-confirm-buttons button:hover {
-            color: var(--background-color);
-            text-shadow: none;
             background-color: var(--warning-color);
             background-image: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.25) 50%);
             background-size: 100% 4px;
         }
-        
         .checkbox-container:hover {
             outline: 2px solid var(--primary-color);
             outline-offset: 2px;
         }
-
     }
-
-    
-
     .generate-instruction { 
-
         display: block; 
-
     }
-
 }
-
 /* Landscape mobile optimization */
-
 @media (max-height: 500px) and (orientation: landscape) {
-
     body {
-
         align-items: flex-start;
-
         padding-top: 20px;
-
         padding-bottom: 20px;
-
     }
-
-    
-
     .container { 
-
         margin: 10px 0; 
-
     }
-
-    
-
     h1 { 
-
         margin-bottom: 15px; 
-
     }
-
-    
-
     .generate-instruction, 
-
     .entropy-section, 
-
     .controls, 
-
     .instructions { 
-
         margin-bottom: 15px; 
-
     }
-
 }
-
 /* Small screens optimization */
-
 @media (max-width: 480px) {
-
     .security-warning {
-
         width: 95%;
-
         padding: 12px;
-
     }
-
 }
-
 @media (max-width: 360px) {
-
     .container { 
-
         padding: 15px; 
-
     }
-
-    
-
     h1 { 
-
         letter-spacing: 1px; 
-
     }
-
-    
-
     .password-display, 
-
     .entropy-section, 
-
     .controls, 
-
     .instructions { 
-
         padding: 12px; 
-
     }
-
-    
-
     .checkbox-container {
-
         flex-basis: 100%;
-
         padding: 6px 4px;
-
     }
-
-    
-
     .checkbox-container label {
-
         font-size: 0.75rem;
-
     }
-
 }
