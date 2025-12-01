@@ -1,11 +1,16 @@
 # [ QUASI ]
 ### Secure Password Generator
 ---
-![Version](https://img.shields.io/badge/version-1.0.0-yellow.svg)
+![Version](https://img.shields.io/badge/version-1.0.1-yellow.svg)
 ![License](https://img.shields.io/badge/license-MIT-yellow.svg)
 ![Security](https://img.shields.io/badge/security-cryptographic-orange.svg)
 
 Un generatore di password sicure che utilizza entropia fisica da movimenti mouse/touch combinata con le API crittografiche del browser.
+
+## 🧾 Changelog
+
+- 2025-10-09 — **1.0.1**: Fix caricamento font VT323 (percorso relativo e file integro).
+- 2025-10-07 — **1.0.0**: Prima release pubblica.
 
 ## ⚠️ Avviso di Sicurezza
 
